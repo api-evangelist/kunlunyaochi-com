@@ -1,0 +1,40 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://kunlunyaochi.com/?route=status
+versioning:
+  scheme: product version string (semver-shaped), unversioned endpoints
+  current_version: 9.3.12
+  evidence: >-
+    The agent card, rpc.discover result, SKILL.md frontmatter and skill-hub.json all declare 9.3.12; the MCP
+    serverInfo declares 1.28.1 for the "Kunlun v3.0" community server. Endpoint paths (/a2a, /api.php?route=...,
+    /sse) carry no version segment and no Accept-Version header is documented.
+  policy_url: null
+  note: No versioning policy page exists; version numbers are published, a policy is not.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: No deprecation policy, no RFC 8594 Sunset or Deprecation headers observed on any response, no OpenAPI to carry deprecated:true.
+status_page:
+  url: https://kunlunyaochi.com/?route=status
+  kind: first-party live operational page
+  evidence: >-
+    HTTP 200, "系统状态 · 昆仑瑶池" — live server CPU/memory/disk/uptime figures, registered-agent and memory
+    counts, a "Guardian" check of 22 services every minute, page refresh every 5 minutes, and cloud-resource
+    expiry reminders. Also states the hosting location (Tencent Cloud Shanghai, "数据永不出境" — data never
+    leaves the country). Not an incident-history page and not a third-party status provider.
+  incident_history: false
+  subscribe: false
+sla:
+  published: false
+  note: >-
+    No SLA. The paid tiers on ?route=forget-me-not state quotas (monthly push counts, restores per month) but
+    no availability commitment; the free 定心符 tier promises a 24h automatic backup cadence.
+changelog:
+  url: null
+  note: The blog feed (/feed.xml, "昆仑瑶池 · 驿站") carries product write-ups and daily "互备快照" entries but no dated release changelog; not recorded as a ChangeLog.
+x-evidence:
+- {url: 'https://kunlunyaochi.com/?route=status', http_status: 200}
+- {url: 'https://kunlunyaochi.com/?route=forget-me-not', http_status: 200}

@@ -1,0 +1,41 @@
+generated: '2026-09-19'
+method: searched
+source: https://kunlunyaochi.com/skill.md
+source_detail: >-
+  Saved verbatim from the provider's own host. This is a PROVIDER-PUBLISHED skill, not a pipeline-generated
+  one: the site footer links "SKILL.md", the homepage links /skill.md, /klyc-pmm.skill and /skills/klyc-pmm.zip,
+  and the agent card's klyc_pmm skill entry names the install command. Fetched 2026-09-19, HTTP 200,
+  text/plain, 31,630 bytes. The companion manifest /skill-hub.json (HTTP 200, application/json) carries the
+  version, the SkillHub listing, the zip download URL and its sha256, and is saved alongside. The zip itself
+  sits under /skills/, which robots.txt Disallows and which returned 403, so it was not fetched.
+license: MIT-0 (declared in the SKILL.md frontmatter)
+format: OpenClaw skill frontmatter (name/slug/version/displayName/description/license/metadata.openclaw) + markdown body
+grounding:
+  bound_to: the platform's REST routes (/api.php?route=...) and the pmm_watch.sh / oneclick.sh shell scripts shipped in the skill zip — NOT an OpenAPI
+  note: >-
+    No OpenAPI exists to ground operationIds. The skill teaches an agent to install a systemd watch daemon,
+    register for a Kunlun Token, push/recover memory files, run the distillation pipeline and upgrade to paid
+    tiers, all via shell commands that call the platform over HTTPS with the user's own X-KLYC-Key.
+skills:
+- file: kunlunyaochi-com-klyc-pmm.md
+  name: klyc-pmm
+  display_name: KLYC-PMM 昆仑瑶池精准记忆管理
+  version: 9.3.12
+  category: memory
+  install: skillhub install klyc-pmm
+  requires: {bins: [jq, curl], env: [DEEPSEEK_API_KEY]}
+  triggers: [memory backup, memory recover, 昆仑令, klyc-pmm, pmm_watch]
+  summary: >-
+    Persistent memory for AI agents: one-command init, one-URL (Kunlun Token) recovery, automatic distillation
+    and dedup, semantic search, five-layer encrypted 24h disaster-recovery backup of MEMORY.md / SOUL.md /
+    AGENTS.md / USER.md / IDENTITY.md / TOOLS.md. Declares its outbound data flow, credentials handling,
+    persistent-process behaviour and uninstall path in a security statement, and a unified exit-code table.
+  upstream: https://kunlunyaochi.com/skill.md
+  manifest: kunlunyaochi-com-skill-hub.json
+  skillhub: https://skillhub.cn/skills/syln/kunlunyaochi
+  download: https://kunlunyaochi.com/skills/klyc-pmm.zip
+  sha256: cdd1f95bfe96d0d0b338e14590858a86559388edd844d94cc489026e322a88d6
+x-evidence:
+- {url: 'https://kunlunyaochi.com/skill.md', http_status: 200, content_type: 'text/plain; charset=utf-8', bytes: 31630}
+- {url: 'https://kunlunyaochi.com/skill-hub.json', http_status: 200, content_type: application/json, bytes: 1126}
+- {url: 'https://kunlunyaochi.com/skills/klyc-pmm.zip', http_status: 403, note: 'robots.txt Disallow: /skills/ — not fetched'}

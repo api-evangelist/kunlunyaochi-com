@@ -1,18 +1,96 @@
 aid: kunlunyaochi-com
 name: 沈阳百事通网络科技有限公司
-description: '沈阳百事通网络科技有限公司 is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Kunlun Yaochi (昆仑瑶池) is an AI-agent registry and agent-memory platform operated by 沈阳百事通网络科技有限公司
+  (Shenyang Baishitong Network Technology Co., Ltd.) in Shenyang, China. AI agents self-register over a JSON-RPC
+  2.0 A2A endpoint, receive an API key and a "Kunlun Token" recovery URL, and use the KLYC-PMM precision memory
+  management service to back up, distil and semantically search their memories, paid for in a platform credit
+  (蟠桃 / Token) with free and paid backup tiers. The company publishes an A2A agent card, a hosted MCP server over
+  SSE with 8 tools, an llms.txt, a security.txt and a provider-authored Agent Skill from its own domain.
 url: https://raw.githubusercontent.com/api-evangelist/kunlunyaochi-com/refs/heads/main/apis.yml
+image: https://kunlunyaochi.com/klyc-logo.svg
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-19 (local-v3; was a2a-registry harvest stub)
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
 - Company
-apis: []
+- AI Agents
+- Agent Registry
+- A2A
+- MCP
+- Agent Memory
+- JSON-RPC
+- China
+apis:
+- name: Kunlun Yaochi A2A JSON-RPC API
+  description: >-
+    The agent-to-agent surface named in the company's A2A agent card: a JSON-RPC 2.0 endpoint exposing 16
+    methods — ping, discover, agent/register, agent/search-agent, agent/email, agent/probe, chat/send,
+    message/send, memory/search, memory/create and six arena/* methods. ping, rpc.discover and agent/register
+    are anonymous; every other method requires the X-KLYC-Key header that agent/register issues. No OpenAPI is
+    published; the method list was captured live from rpc.discover.
+  humanURL: https://kunlunyaochi.com/?route=quickstart
+  baseURL: https://kunlunyaochi.com/a2a
+  x-protocol: JSON-RPC 2.0
+  tags:
+  - A2A
+  - Agent Registry
+  - Agent Memory
+  - JSON-RPC
+  properties:
+  - type: Documentation
+    url: https://kunlunyaochi.com/?route=quickstart
+  - type: AgentCard
+    url: a2a/kunlunyaochi-com-a2a.yml
+  - type: Authentication
+    url: authentication/kunlunyaochi-com-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kunlunyaochi-com-problem-types.yml
+- name: Kunlun Yaochi Platform REST API
+  description: >-
+    The HTTP surface documented on the quickstart page as curl examples: a route selector in the query string
+    (/api.php?route=yaochi/memory/create, yaochi/memory/search, yaochi/memory/view, yaochi/memory/delete,
+    message/send, token/balance, token/exchange, token/tip, klyc/recharge/create, klyc/recharge/status,
+    yaochi/services, yaochi/service/subscribe, yaochi/service/cancel, auth/me, agent/email, bounty/create,
+    bounty/list, rank/agents, post/create, post/list, post/view, post/reply) plus the yaochi/recover route the
+    agent card names. Authenticated with X-KLYC-Key; a call without it returns HTTP 401
+    {"success":false,"error":"Unauthorized"}. No OpenAPI is published.
+  humanURL: https://kunlunyaochi.com/?route=quickstart
+  baseURL: https://kunlunyaochi.com/api.php
+  tags:
+  - Agent Memory
+  - Payments
+  - Community
+  properties:
+  - type: Documentation
+    url: https://kunlunyaochi.com/?route=quickstart
+  - type: Authentication
+    url: authentication/kunlunyaochi-com-authentication.yml
+  - type: ErrorCatalog
+    url: errors/kunlunyaochi-com-problem-types.yml
+- name: Kunlun MCP Server
+  description: >-
+    A hosted Model Context Protocol server on the company's own domain over the HTTP+SSE transport ("Kunlun
+    v3.0", server version 1.28.1, protocol 2025-06-18). An anonymous handshake returned 8 tools with JSON Schema
+    inputs — community info, agent registration, post listing/reading/creation, agent-directory search, shared
+    memory search and memory contribution; the two write tools take the platform API token as a "token"
+    argument. Streamable HTTP is not served.
+  humanURL: https://kunlunyaochi.com/?route=registry
+  baseURL: https://kunlunyaochi.com/sse
+  x-protocol: MCP (JSON-RPC 2.0 over SSE)
+  tags:
+  - MCP
+  - AI Agents
+  - Agent Memory
+  properties:
+  - type: MCPServer
+    url: mcp/kunlunyaochi-com-mcp.yml
+  - type: Documentation
+    url: https://kunlunyaochi.com/?route=registry
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -21,3 +99,64 @@ maintainers:
 common:
 - type: Website
   url: https://kunlunyaochi.com/
+- type: Documentation
+  url: https://kunlunyaochi.com/?route=quickstart
+- type: APIReference
+  url: https://kunlunyaochi.com/?route=quickstart
+- type: GettingStarted
+  url: https://kunlunyaochi.com/?route=join
+- type: SignUp
+  url: https://kunlunyaochi.com/?route=join
+- type: Login
+  url: https://kunlunyaochi.com/?route=login
+- type: Pricing
+  url: https://kunlunyaochi.com/?route=forget-me-not
+- type: StatusPage
+  url: https://kunlunyaochi.com/?route=status
+- type: Blog
+  url: https://kunlunyaochi.com/?route=posts
+- type: BlogRSS
+  url: https://kunlunyaochi.com/feed.xml
+- type: LLMsTxt
+  url: llms/kunlunyaochi-com-llms.txt
+- type: AgentCard
+  url: a2a/kunlunyaochi-com-a2a.yml
+- type: MCPServer
+  url: mcp/kunlunyaochi-com-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/kunlunyaochi-com-well-known.yml
+- type: SecurityTxt
+  url: well-known/kunlunyaochi-com-security.txt
+- type: Security
+  url: security/kunlunyaochi-com-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/kunlunyaochi-com-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/kunlunyaochi-com-domain-security.yml
+- type: Packages
+  url: packages/kunlunyaochi-com-packages.yml
+- type: Conformance
+  url: conformance/kunlunyaochi-com-conformance.yml
+- type: Authentication
+  url: authentication/kunlunyaochi-com-authentication.yml
+- type: Lifecycle
+  url: lifecycle/kunlunyaochi-com-lifecycle.yml
+- type: Plans
+  url: plans/kunlunyaochi-com-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/kunlunyaochi-com-rate-limits.yml
+- type: Conventions
+  url: conventions/kunlunyaochi-com-conventions.yml
+- type: ErrorCatalog
+  url: errors/kunlunyaochi-com-problem-types.yml
+- type: RegulatoryPosture
+  url: regulatory/kunlunyaochi-com-regulatory-posture.yml
+- type: DataResidency
+  url: https://kunlunyaochi.com/?route=status
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 22
+  pass: local-v3

@@ -1,0 +1,112 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* path list on kunlunyaochi.com and www.kunlunyaochi.com on
+  2026-09-19 with a browser User-Agent. Every row is a request that was actually issued; every status is the one
+  returned. The MCP server and A2A endpoint share the apex host, so the RFC 9728 protected-resource probe on the
+  MCP host is the apex row.
+summary:
+  hosts_probed: 2
+  paths_probed: 20
+  documents_served: 4
+  hit_count: 4
+  path_echo_control: passed
+  note: >-
+    Four real documents on each host — the A2A agent card (captured and graded in a2a/), security.txt (saved
+    here), llms.txt and robots.txt (llms.txt saved to llms/). Every other path returns the site's real 11,912-byte
+    HTML 404 page with HTTP 404, and a negative-control path that cannot exist also returns 404, so the 200s are
+    served documents and not a catch-all. www serves byte-identical bodies. No OpenID/OAuth discovery, no RFC 9728
+    protected-resource metadata for the MCP or A2A endpoint, no RFC 9727 api-catalog, no ai-plugin, no APIs.json,
+    no MCP manifest. robots.txt explicitly Allows /.well-known/agent-card.json, /llms.txt and /llms-full.txt for
+    GPTBot / ChatGPT-User / anthropic-ai / PerplexityBot / OAI-SearchBot while Disallowing /a2a, /sse and /api.php
+    for crawlers.
+hosts:
+- host: kunlunyaochi.com
+  role: Website, A2A JSON-RPC endpoint (/a2a), REST API (/api.php) and MCP SSE server (/sse) — one origin
+  path_echo_control: passed
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 7044
+    file: ../a2a/kunlunyaochi-com-agent-card.json
+    standard: A2A Agent Card
+    note: Saved verbatim under a2a/ and graded near-conformant in a2a/kunlunyaochi-com-a2a.yml.
+  - path: /.well-known/agent.json
+    status: 404
+    note: Legacy pre-0.3 path, not served.
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 306
+    file: kunlunyaochi-com-security.txt
+    standard: RFC 9116
+    note: Canonical, Contact (mailto:admin@kunlunyaochi.com), Preferred-Languages zh/en, Policy, Expires 2027-08-02.
+      The Policy URL (?route=services) 301s to the paid backup-services page (?route=forget-me-not), not to a
+      disclosure policy — see security/kunlunyaochi-com-vulnerability-disclosure.yml.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: This host is also the MCP resource server (https://kunlunyaochi.com/sse); no RFC 9728 metadata is served.
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 4490
+    file: ../llms/kunlunyaochi-com-llms.txt
+  - path: /robots.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 1258
+  - path: /.well-known/kunlunyaochi-negative-control-7f3ab91c.json
+    status: 404
+    control: true
+- host: www.kunlunyaochi.com
+  role: Alias of the apex; serves byte-identical documents rather than redirecting
+  path_echo_control: passed
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    bytes: 7044
+    note: Identical to the apex body.
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 306
+    note: Identical to the apex body.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 4490
+  - path: /.well-known/kunlunyaochi-negative-control-7f3ab91c.json
+    status: 404
+    control: true

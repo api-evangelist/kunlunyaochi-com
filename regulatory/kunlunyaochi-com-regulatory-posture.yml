@@ -1,0 +1,53 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://kunlunyaochi.com/?route=status
+note: >-
+  Harvest only — nothing here decides which regime applies. The site publishes no privacy policy, terms of
+  service, accessibility statement, subprocessor list, DPA, transparency report or SBOM: /privacy, /terms,
+  /about, /pricing and /blog all return the site's HTML 404, and the sitemap lists no legal page. What it does
+  publish is a hosting-location / data-residency statement on its own status page, mandatory Chinese ICP and
+  public-security filings in every page footer, and — inside the provider-authored SKILL.md — an itemised
+  outbound data-flow and credentials disclosure for the client it ships. The first is recorded as a signal; the
+  latter two are noted below because they are real published facts but do not map to a canonical signal type.
+signals:
+  data_residency:
+    url: https://kunlunyaochi.com/?route=status
+    evidence:
+    - source: https://kunlunyaochi.com/?route=status
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '服务器位置：腾讯云上海 · 数据永不出境'
+      translation: 'Server location: Tencent Cloud Shanghai · data never leaves the country.'
+    regions: [CN (Tencent Cloud, Shanghai)]
+    selectable: false
+    note: >-
+      A named region and an explicit no-cross-border commitment, published by the provider on its live status
+      page. It is a statement, not a configurable residency option, and it is not backed by a legal page.
+other_published_facts:
+  icp_filing:
+    value: 辽ICP备12004706号
+    public_security_filing: 辽公网安备21010602001389号
+    url: http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=21010602001389
+    note: Mandatory PRC website registrations shown in the footer of every page and cited in the SKILL.md description as the basis for calling the domain a "网安备案的安全网址".
+  client_data_flow_disclosure:
+    url: https://kunlunyaochi.com/skill.md
+    section: '🔒 安全声明'
+    note: >-
+      The provider-authored skill itemises exactly which local files its watch daemon uploads per tier
+      (MEMORY.md, SOUL.md, AGENTS.md, USER.md, IDENTITY.md, TOOLS.md; plus memory/, arena/, output/ on paid
+      tiers), where credentials are stored (~/.klyc-pmm/api_key, 0600), that the optional DeepSeek key goes
+      directly to api.deepseek.com, that a systemd user service is installed, what is never collected, and how
+      to uninstall and delete uploaded data. Substantive, but a client disclosure rather than a privacy policy
+      or DPA, so it is not counted under any canonical signal.
+absent:
+  - {signal: sbom, probed: 'https://kunlunyaochi.com/security/sbom', status: 404}
+  - {signal: accessibility_conformance, probed: 'https://kunlunyaochi.com/accessibility', status: 404}
+  - {signal: subprocessors, probed: 'https://kunlunyaochi.com/legal/subprocessors', status: 404}
+  - {signal: data_subject_request, probed: 'https://kunlunyaochi.com/privacy', status: 404}
+  - {signal: transparency_report, probed: 'https://kunlunyaochi.com/transparency', status: 404}
+  - {signal: ai_transparency, probed: 'https://kunlunyaochi.com/ai/transparency', status: 404}
+x-evidence:
+- {url: 'https://kunlunyaochi.com/?route=status', http_status: 200}
+- {url: 'https://kunlunyaochi.com/privacy', http_status: 404}
+- {url: 'https://kunlunyaochi.com/terms', http_status: 404}

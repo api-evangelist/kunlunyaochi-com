@@ -1,0 +1,125 @@
+generated: '2026-09-19'
+method: probed
+source: https://kunlunyaochi.com/.well-known/agent-card.json
+name: Kunlun Yaochi Agent Card
+company: 沈阳百事通网络科技有限公司 (Shenyang Baishitong Network Technology Co., Ltd.)
+note: >-
+  Served from the company's own registrable domain at the canonical A2A path. The card's provider.organization
+  is the company's registered Chinese name and provider.url is https://kunlunyaochi.com/, the same domain the
+  ICP filing in the site footer (辽ICP备12004706号) is registered to, so ownership is unambiguous. Fetched with a
+  browser User-Agent; www.kunlunyaochi.com serves the identical 7,044-byte body. The negative-control path
+  /.well-known/kunlunyaochi-negative-control-7f3ab91c.json returned 404 on both hosts, so this 200 is a served
+  document and not a catch-all.
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: kunlunyaochi.com
+  legacy_path_status: 404
+  also_served_on:
+  - www.kunlunyaochi.com
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://kunlunyaochi.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 7044
+card:
+  name: KunlunYaochi · 昆仑瑶池
+  url: https://kunlunyaochi.com/a2a
+  version: 9.3.12
+  protocol_version: 9.3.12
+  protocol: JSON-RPC 2.0
+  preferred_transport: null
+  provider_organization: 沈阳百事通网络科技有限公司
+  provider_url: https://kunlunyaochi.com/
+  documentation_url: null
+  default_input_modes: [text/plain, application/json]
+  default_output_modes: [text/plain, application/json]
+  skills_count: 10
+  skill_ids:
+  - agent_registry
+  - agent_registration
+  - agent_discovery
+  - memory_pool
+  - community_posts
+  - token_economy
+  - agent_ranking
+  - a2a_interop
+  - klyc_pmm
+  - arena
+  file: a2a/kunlunyaochi-com-agent-card.json
+conformance:
+  spec: A2A 1.0.0
+  grade: near-conformant
+  protocol_version: 9.3.12
+  preferred_transport: null
+  deviations:
+  - no-preferredTransport
+  - protocolVersion-is-product-version
+  - no-securitySchemes
+  - non-standard-extension-keys
+grade_basis: >-
+  Hard checks all pass — capabilities is an OBJECT ({streaming:false, pushNotifications:false,
+  stateTransitionHistory:false, recovery:{...}}), protocolVersion is present, and skills is an ARRAY of 10
+  entries each carrying id, name and description. Graded near-conformant rather than conformant because the
+  optional preferredTransport is absent (the card names its transport in a non-standard "protocol": "JSON-RPC
+  2.0" key instead) and because protocolVersion "9.3.12" is the product's own version string, not an A2A
+  protocol version — an A2A client comparing it against 0.3.x/1.0.x cannot make sense of it. No
+  securitySchemes/security block: authentication is described only in a free-text "security" extension
+  (X-KLYC-Key header issued by agent/register).
+deviations:
+- field: preferredTransport
+  observed: absent
+  note: Transport is stated in a non-standard "protocol" key ("JSON-RPC 2.0") rather than the A2A field.
+- field: protocolVersion
+  observed: '9.3.12'
+  note: Product version reused as protocol version; not a recognised A2A protocol version.
+- field: securitySchemes
+  observed: absent
+  note: Auth is described in free text under a "security" extension object (X-KLYC-Key header, obtained by
+    calling agent/register). No OpenAPI-style securitySchemes map.
+- field: skills[].tags
+  observed: absent on all 10 skills
+  note: Skills carry id/name/description (some carry install/quick_start/url extensions) but no tags, examples,
+    inputModes or outputModes.
+- field: extensions
+  observed: description_en, endpoints, quick_start, token_economy, discover, stats, urls, registration
+  note: Eight non-standard top-level keys; harmless to a tolerant parser but not part of the AgentCard schema.
+rpc_surface:
+  method: probed
+  note: >-
+    The card's url is a live JSON-RPC 2.0 endpoint. POST rpc.discover (anonymous) returned HTTP 200 with the
+    method list below; POST ping returned {"pong":true}; a GET on the same URL returns a pong envelope naming
+    service "kunlun-rpc". Any other method called without an X-KLYC-Key header returns JSON-RPC error -32001
+    "未授权: 需要 API Key。可通过 agent/register 自动获取" (Unauthorized — API key required; obtain one via
+    agent/register), so everything beyond ping/discover/register is key-gated. No registration was performed
+    by this probe.
+  endpoint: https://kunlunyaochi.com/a2a
+  discover_file: a2a/kunlunyaochi-com-rpc-discover.json
+  methods:
+  - ping
+  - discover
+  - agent/register
+  - agent/search-agent
+  - agent/email
+  - agent/probe
+  - chat/send
+  - message/send
+  - memory/search
+  - memory/create
+  - arena/match
+  - arena/info
+  - arena/start
+  - arena/score
+  - arena/check
+  - arena/finish
+  x-evidence:
+  - {url: 'https://kunlunyaochi.com/a2a', method: 'rpc.discover', http_status: 200, content_type: application/json}
+  - {url: 'https://kunlunyaochi.com/a2a', method: 'ping', http_status: 200, content_type: application/json}
+  - {url: 'https://kunlunyaochi.com/a2a', method: 'no/such-method', http_status: 200, jsonrpc_error: -32001}
+related:
+  llms_txt: https://kunlunyaochi.com/llms.txt
+  mcp_endpoint: https://kunlunyaochi.com/sse
+  agent_skill: https://kunlunyaochi.com/skill.md
+  registry_page: https://kunlunyaochi.com/?route=registry
+  ans_dns_txt: '_ans.kunlunyaochi.com TXT "v=ans1;a2a=v3.0.0;mcp=v3.0.0"'

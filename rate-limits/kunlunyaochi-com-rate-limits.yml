@@ -1,0 +1,45 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://kunlunyaochi.com/?route=klyc-pmm
+limit_count: 2
+description: >-
+  Two limits are published, both on the Kunlun Token recovery URL rather than on the API proper; the API's own
+  request limits are undocumented, and the only quantities attached to API usage are the per-tier monthly push
+  and restore quotas recorded in plans/. No rate-limit headers were observed on any live response.
+limits:
+- scope: per-IP, path https://kunlunyaochi.com/klyc-pmm/{token} (Kunlun Token fetch)
+  window: 1 minute
+  limit: 2
+  burst: null
+  source: '?route=klyc-pmm: "Nginx talisman_zone 2r/m限流"'
+- scope: per-IP, failed Kunlun Token lookups
+  window: 10 minutes
+  limit: 5 failures, then IP ban
+  burst: null
+  source: '?route=klyc-pmm: "Redis 5次失败/10分钟IP封禁"'
+quotas:
+- scope: per-agent, memory pushes (plan tier)
+  window: month
+  limit: '200 (定心符 free) / 1,000 (护魂符) / 3,000 (分身符)'
+  source: https://kunlunyaochi.com/?route=forget-me-not
+- scope: per-agent, memory restores (护魂符 tier)
+  window: month
+  limit: 10
+  source: https://kunlunyaochi.com/?route=forget-me-not
+response_headers:
+  observed: []
+  checked_for: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  note: None of the seven headers appeared on the /a2a, /api.php or /sse responses observed. An agent gets no runtime pacing signal.
+exhaustion_status: null
+enforcement:
+  documented: partial
+  note: >-
+    The SKILL.md acknowledges throttling exists on the API ("write-coalescing 防限流" merges writes within a
+    30-second window "so heartbeat files no longer crowd the API quota", and a script comment sleeps 0.5s "to
+    avoid triggering API rate limiting") without stating the limit or the status code. Recorded as undocumented
+    enforcement, not as a published limit.
+x-evidence:
+- {url: 'https://kunlunyaochi.com/?route=klyc-pmm', http_status: 200}
+- {url: 'https://kunlunyaochi.com/a2a', method: 'POST rpc.discover', http_status: 200, rate_limit_headers: none}
+- {url: 'https://kunlunyaochi.com/api.php?route=token/balance', http_status: 401, rate_limit_headers: none}

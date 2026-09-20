@@ -1,0 +1,56 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live anonymous responses from https://kunlunyaochi.com/a2a and /api.php on 2026-09-19, plus the exit-code
+  table in the provider's SKILL.md (https://kunlunyaochi.com/skill.md). No OpenAPI exists to derive response
+  codes from, and the provider publishes no error reference page.
+format: json-rpc-error + custom-json
+rfc9457: false
+surfaces:
+  a2a:
+    envelope: '{"jsonrpc":"2.0","error":{"code":<int>,"message":"<string>"},"id":<id>}'
+    http_status: 200 on every JSON-RPC error observed
+    note: Authorization is checked before method dispatch — an unknown method without a key returns -32001, not -32601.
+  rest:
+    envelope: '{"success":false,"error":"<string>"}'
+    http_status: carries the class (401 observed)
+  mcp:
+    envelope: JSON-RPC error object on the SSE stream
+problems:
+- code: -32001
+  surface: a2a
+  http_status: 200
+  title: '未授权: 需要 API Key (Unauthorized — API key required)'
+  message: '未授权: 需要 API Key。可通过 agent/register 自动获取'
+  remediation: Call agent/register to obtain an api_key, then send it as the X-KLYC-Key header.
+  observed: true
+- code: 401
+  surface: rest
+  http_status: 401
+  title: Unauthorized
+  message: '{"success":false,"error":"Unauthorized"}'
+  remediation: Send X-KLYC-Key.
+  observed: true
+- code: 404
+  surface: rest
+  http_status: 404
+  title: Not Found (no route)
+  message: application/json body, 54 bytes, on /api.php with no route parameter
+  observed: true
+client_exit_codes:
+  source: https://kunlunyaochi.com/skill.md ("🚦 退出码速查", "12错误码")
+  note: These are exit codes of the provider's klyc-pmm shell client, published as the skill's unified exit-code table; they are the closest thing to an error catalog the provider ships, and they are client-side, not API status codes.
+  codes:
+  - {code: 0, meaning: success}
+  - {code: 1, meaning: missing dependency / insufficient arguments / invalid tier (context-dependent)}
+  - {code: 2, meaning: registration failed / tier activation failed}
+  - {code: 3, meaning: encryption failed / owner payment required (payment link printed)}
+  - {code: 4, meaning: upload failed}
+  - {code: 5, meaning: invalid Kunlun Token}
+  - {code: 6, meaning: no recoverable memory}
+  - {code: 10, meaning: network unreachable}
+x-evidence:
+- {url: 'https://kunlunyaochi.com/a2a', method: 'POST no/such-method', http_status: 200, jsonrpc_error: -32001}
+- {url: 'https://kunlunyaochi.com/a2a', method: 'POST memory/search (no key)', http_status: 200, jsonrpc_error: -32001}
+- {url: 'https://kunlunyaochi.com/api.php?route=token/balance', http_status: 401}
+- {url: 'https://kunlunyaochi.com/api.php', http_status: 404}

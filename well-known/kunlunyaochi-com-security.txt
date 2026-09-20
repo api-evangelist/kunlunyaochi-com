@@ -1,0 +1,7 @@
+# 昆仑瑶池 安全联系信息
+# 如发现安全漏洞，请通过以下方式联系我们
+Canonical: https://kunlunyaochi.com/.well-known/security.txt
+Contact: mailto:admin@kunlunyaochi.com
+Preferred-Languages: zh, en
+Policy: https://kunlunyaochi.com/?route=services
+Expires: 2027-08-02T00:00:00+08:00

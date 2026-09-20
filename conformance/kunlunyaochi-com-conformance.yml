@@ -1,0 +1,82 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live probes of https://kunlunyaochi.com on 2026-09-19 — the A2A agent card, the /a2a JSON-RPC endpoint, the
+  /sse MCP server handshake, /.well-known/security.txt, /llms.txt and /robots.txt — cross-checked against the
+  provider's llms.txt and ?route=quickstart documentation. No OpenAPI exists, so nothing here is derived from a
+  contract; every conforms:true row is backed by a fetched document.
+standards:
+- id: a2a
+  name: A2A Agent Card / Agent2Agent protocol
+  conforms: true
+  grade: near-conformant
+  evidence: >-
+    https://kunlunyaochi.com/.well-known/agent-card.json returned HTTP 200 application/json with capabilities as
+    an object, protocolVersion present and skills as an array of 10. Graded near-conformant in
+    a2a/kunlunyaochi-com-a2a.yml: no preferredTransport, and protocolVersion "9.3.12" is the product version
+    rather than an A2A protocol version.
+- id: json-rpc-2.0
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: >-
+    POST {"jsonrpc":"2.0","method":"rpc.discover","id":1} to https://kunlunyaochi.com/a2a returned a well-formed
+    {"jsonrpc":"2.0","result":{...},"id":1}; an unknown method returned {"jsonrpc":"2.0","error":{"code":-32001,
+    "message":"..."},"id":3} — an implementation-defined server error in the reserved -32000..-32099 range, as
+    the spec allows. The MCP server speaks JSON-RPC 2.0 over SSE.
+- id: mcp
+  name: Model Context Protocol (2025-06-18 over the SSE transport)
+  conforms: true
+  evidence: >-
+    GET https://kunlunyaochi.com/sse (200, text/event-stream) emitted an "endpoint" event; initialize returned
+    protocolVersion "2025-06-18" with a capabilities object and serverInfo; tools/list returned 8 tools each with
+    a JSON Schema inputSchema (mcp/kunlunyaochi-com-mcp-tools-list.json). The server negotiates the 2025-06-18
+    protocol version but exposes only the legacy HTTP+SSE transport; Streamable HTTP at /mcp/ is 404.
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: true
+  evidence: >-
+    https://kunlunyaochi.com/.well-known/security.txt returned 200 text/plain with Canonical, Contact,
+    Preferred-Languages, Policy and Expires fields (well-known/kunlunyaochi-com-security.txt).
+  caveat: Not signed; the Policy URL redirects to a paid product page rather than a disclosure policy.
+- id: llms-txt
+  name: llms.txt
+  conforms: true
+  evidence: https://kunlunyaochi.com/llms.txt returned 200 text/plain, an llms.txt-shaped markdown index with H1, summary, H2 sections and links (llms/kunlunyaochi-com-llms.txt). /llms-full.txt also 200.
+- id: robots-txt
+  name: robots.txt (REP, RFC 9309)
+  conforms: true
+  evidence: https://kunlunyaochi.com/robots.txt 200 with per-agent groups for GPTBot, ChatGPT-User, anthropic-ai, PerplexityBot, OAI-SearchBot, Googlebot and Baiduspider and a Sitemap directive.
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: /openapi.json, /openapi.yaml, /swagger.json, /api-docs and /docs all returned the site's HTML 404 (HTTP 404) on both hosts; the REST surface at /api.php?route=... is documented only as curl examples on ?route=quickstart.
+- id: oauth2
+  name: OAuth 2.0 / RFC 8414 authorization-server metadata
+  conforms: false
+  evidence: /.well-known/oauth-authorization-server 404 on both hosts; authentication is a static X-KLYC-Key header issued by agent/register.
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on both hosts.
+- id: rfc9728
+  name: RFC 9728 OAuth Protected Resource Metadata (MCP authorization)
+  conforms: false
+  evidence: /.well-known/oauth-protected-resource 404 on the host that serves the MCP endpoint; the MCP server takes an API token as a tool argument instead.
+- id: rfc9727
+  name: RFC 9727 API Catalog
+  conforms: false
+  evidence: /.well-known/api-catalog 404 on both hosts.
+- id: rfc9457
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: The REST surface returns {"success":false,"error":"Unauthorized"} with HTTP 401 and application/json; the JSON-RPC surface returns JSON-RPC error objects with HTTP 200. No application/problem+json anywhere.
+- id: apis-json
+  name: APIs.json
+  conforms: false
+  evidence: /apis.json and /.well-known/apis.json both 404.
+domain_standard:
+  note: >-
+    The provider's market (AI-agent registry and agent memory) has no settled domain standard beyond A2A and MCP,
+    both recorded above. The "ANS" DNS TXT record (_ans.kunlunyaochi.com "v=ans1;a2a=v3.0.0;mcp=v3.0.0") and the
+    "A2A v3.0.0 / MCP v3.0.0" version labels are the provider's own naming, not a published standard's, and are
+    not counted.

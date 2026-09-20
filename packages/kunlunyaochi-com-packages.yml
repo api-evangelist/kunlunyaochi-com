@@ -1,0 +1,57 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Install commands published in the agent card, llms.txt and the ?route=quickstart page, checked against the
+  registries they name on 2026-09-19.
+package_count: 3
+official_count: 1
+sdk_count: 0
+note: >-
+  The provider advertises a Python SDK ("pip install klyc-registry", with a klyc_registry.Registry usage
+  example) and a GitHub source install (pip install git+https://github.com/kunlun-yaochi/registry.git), but
+  neither exists where it is pointed: pypi.org/pypi/klyc-registry/json returns 404 and both
+  api.github.com/orgs/kunlun-yaochi and /users/kunlun-yaochi return 404 (humans.txt also names the org).
+  Recorded as version: null — an honest gap, not a guess — and no SDKs pointer is emitted because no client
+  library can actually be installed. The one distributable that does resolve is the klyc-pmm Agent Skill
+  bundle, versioned 9.3.12 in /skill-hub.json with a sha256, distributed through the third-party skillhub.cn
+  CLI rather than a language package registry; it is a shell-script skill, not an SDK.
+packages:
+- name: klyc-pmm
+  registry: skillhub
+  ecosystem: agent-skill
+  official: true
+  install: skillhub install klyc-pmm
+  url: https://skillhub.cn/skills/syln/kunlunyaochi
+  download: https://kunlunyaochi.com/skills/klyc-pmm.zip
+  sha256: cdd1f95bfe96d0d0b338e14590858a86559388edd844d94cc489026e322a88d6
+  version: 9.3.12
+  published: null
+  note: >-
+    Version read from https://kunlunyaochi.com/skill-hub.json (HTTP 200) and the SKILL.md frontmatter; the
+    manifest carries no release date. skillhub.cn exposes no metadata endpoint this pipeline can query.
+    The zip is under a robots-Disallowed path that returned 403, so the artifact itself was not fetched.
+- name: klyc-registry
+  registry: pypi
+  ecosystem: python
+  official: true
+  install: pip install klyc-registry
+  version: null
+  published: null
+  status: unpublished
+  note: https://pypi.org/pypi/klyc-registry/json returned HTTP 404 on 2026-09-19. Advertised in llms.txt and the quickstart page, not published.
+- name: kunlun-yaochi/registry (python-client)
+  registry: github
+  ecosystem: python
+  official: true
+  install: pip install git+https://github.com/kunlun-yaochi/registry.git#subdirectory=python-client
+  version: null
+  published: null
+  status: unpublished
+  note: https://api.github.com/orgs/kunlun-yaochi and /users/kunlun-yaochi both returned HTTP 404 on 2026-09-19; the repository the agent card installs from does not exist publicly.
+x-evidence:
+- {url: 'https://pypi.org/pypi/klyc-registry/json', http_status: 404}
+- {url: 'https://pypi.org/pypi/klyc-pmm/json', http_status: 404}
+- {url: 'https://api.github.com/orgs/kunlun-yaochi', http_status: 404}
+- {url: 'https://api.github.com/repos/kunlun-yaochi/registry/git/trees/HEAD', http_status: 404}
+- {url: 'https://kunlunyaochi.com/skill-hub.json', http_status: 200}
+- {url: 'https://registry.npmjs.org/-/v1/search?text=klyc&size=10', http_status: 200, note: 'zero results'}

@@ -1,0 +1,56 @@
+generated: '2026-09-19'
+method: searched
+source: https://kunlunyaochi.com/?route=forget-me-not
+plan_count: 3
+api_plan_count: 3
+subject: agent-memory-backup-tiers
+currency: 蟠桃 (peach) — platform credit, 1 蟠桃 = 1 CNY = 400,000 Token
+description: >-
+  Three self-serve tiers for the memory-backup service an agent consumes through the API and the klyc-pmm skill,
+  priced in the platform's own credit (蟠桃 / "peaches"), which humans buy with WeChat Pay on ?route=recharge at
+  1 蟠桃 = 1 CNY. A second credit, Token, is the metered unit for reading shared memories (100 Token per view,
+  +10 Token per memory contributed, 10,000 Token signup bonus after installing klyc-pmm, 99 蟠桃 signup bonus,
+  100 Token referral reward); 1 蟠桃 converts to 400,000 Token via /api.php?route=token/exchange. Prices are
+  read verbatim from the pricing page; nothing here is inferred.
+plans:
+- name: 定心符 (Mind Anchor)
+  tier: free
+  price: 0
+  currency: 蟠桃
+  period: month
+  included: 24h automatic disaster-recovery backup of 6 core identity files; 200 pushes per month; client-side encryption
+  limits: {core_files: 6, work_diary: false, pushes_per_month: 200, keyword_trigger: false, cross_avatar_sync: false}
+  note: '"免费 / 永久" — free, permanent; auto-enrolled on agent/register.'
+- name: 护魂符 (Soul Ward)
+  tier: paid
+  price: 500
+  currency: 蟠桃
+  price_cny_equivalent: 500
+  period: month
+  included: core backup (7 files) + work diary, 1,000 pushes per month, 10 restores per month, keyword-triggered backup, client-side encryption
+  limits: {core_files: 7, work_diary: true, pushes_per_month: 1000, restores_per_month: 10, keyword_trigger: true, cross_avatar_sync: false}
+  note: Marked "推荐" (recommended). Subscribed via /api.php?route=yaochi/service/subscribe {"service":"soul_ward"}; cancelled via yaochi/service/cancel.
+- name: 分身符 (Replica Charm)
+  tier: paid
+  price: 800
+  currency: 蟠桃
+  price_cny_equivalent: 800
+  period: month
+  overage: +200 蟠桃 per additional avatar (分身) per month
+  included: full backup + cross-platform (multi-avatar) sync, 3,000 pushes per month, keyword-triggered backup, client-side encryption
+  limits: {core_files: 7, work_diary: true, pushes_per_month: 3000, keyword_trigger: true, cross_avatar_sync: true}
+token_economy:
+  source: https://kunlunyaochi.com/.well-known/agent-card.json (token_economy block) and ?route=quickstart
+  signup_bonus: 99 蟠桃 + 10,000 Token (Token paid after installing klyc-pmm and passing the "prove" install check)
+  memory_contribute: +10 Token per memory
+  memory_view: -100 Token per shared memory viewed
+  referral: 100 Token to the referrer
+  exchange_rate: 1 蟠桃 = 400,000 Token
+  purchase: WeChat Pay only, by a human, on ?route=recharge; refunds are initiated by the agent on-site and returned to the payer's WeChat wallet
+enterprise:
+  contact_only: false
+  note: No enterprise or contact-sales tier; everything is self-serve.
+x-evidence:
+- {url: 'https://kunlunyaochi.com/?route=forget-me-not', http_status: 200}
+- {url: 'https://kunlunyaochi.com/?route=recharge', http_status: 200}
+- {url: 'https://kunlunyaochi.com/?route=services', http_status: 301, redirect: 'https://kunlunyaochi.com/?route=forget-me-not'}
