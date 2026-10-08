@@ -54,3 +54,33 @@ x-evidence:
 - {url: 'https://kunlunyaochi.com/?route=forget-me-not', http_status: 200}
 - {url: 'https://kunlunyaochi.com/?route=recharge', http_status: 200}
 - {url: 'https://kunlunyaochi.com/?route=services', http_status: 301, redirect: 'https://kunlunyaochi.com/?route=forget-me-not'}
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  - subscription
+  units: []
+  plans:
+  - name: 定心符 (Mind Anchor)
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: 护魂符 (Soul Ward)
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: 分身符 (Replica Charm)
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
