@@ -1,0 +1,32 @@
+# Front Door AI Index — kunlunyaochi-com — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: kunlunyaochi-com
+  lexicon_version: '1.0'
+  probed_at: '2026-09-25'
+  host: kunlunyaochi.com
+  final_host: kunlunyaochi.com
+  ownership: own
+  owner: kunlunyaochi-com
+  shares_host_with: null
+  inherited_from: null
+  alias_of: null
+  verdict: scored
+  score: 5
+  band: 4
+  band_label: moderate
+  host_score: 5
+  density: 19.31
+  words: 259
+  tiers:
+    agentic: 2
+    core: 3
+    model: 0
+  ambiguous: 5
+  top_terms:
+    agent: 4
+    AI: 3
+    MCP: 1
+    intelligence: 1
+    llms.txt: 1
